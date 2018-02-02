@@ -19,7 +19,13 @@ import javax.swing.border.*;
  * @author Barb Ericson ericson@cc.gatech.edu
  */
 public class PictureExplorer implements MouseMotionListener, ActionListener, MouseListener
-{
+
+
+
+
+
+
+        {
  
   // current indicies
   /** row index */
@@ -32,7 +38,7 @@ public class PictureExplorer implements MouseMotionListener, ActionListener, Mou
   private JFrame pictureFrame;
   /** window that allows the user to scroll to see a large picture */
   private JScrollPane scrollPane;
-  
+
   // GUI components
   /** column label */
   private JLabel colLabel;
@@ -801,8 +807,11 @@ public class PictureExplorer implements MouseMotionListener, ActionListener, Mou
    */
   public static void main( String args[])
   {
-    Picture pix = new Picture("beach.jpg");
+    Picture pix = new Picture("butterfly1.jpg");
     pix.explore();
+    pix.edgeDetection(5);
+    Picture pix1 = new Picture("beach.jpg");
+    pix1.explore();
   }
-  
+
 }

@@ -99,7 +99,19 @@ public class Picture extends SimplePicture
       }
     }
   }
-  
+
+  public void onlyBlue()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        pixelObj.setGreen(0);
+        pixelObj.setRed(0);
+      }
+    }
+  }
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture
     * from left to right */
@@ -218,8 +230,54 @@ public class Picture extends SimplePicture
       }
     }
   }
-  
-  
+
+  public void negate()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        pixelObj.setGreen(255-pixelObj.getGreen());
+        pixelObj.setRed(255-pixelObj.getRed());
+        pixelObj.setBlue(255-pixelObj.getBlue());
+      }
+    }
+  }
+
+  public void grayscale()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        pixelObj.setGreen((pixelObj.getGreen() + pixelObj.getRed() + pixelObj.getBlue())/3);
+        pixelObj.setRed((pixelObj.getRed() + pixelObj.getGreen() + pixelObj.getBlue())/3);
+        pixelObj.setBlue((pixelObj.getBlue() + pixelObj.getRed() + pixelObj.getGreen())/3);
+      }
+    }
+  }
+
+  public void fixUnderwater(int edgeDist){
+    Pixel leftPixel = null;
+    Pixel rightPixel = null;
+    Pixel[][] pixels = this.getPixels2D();
+    Color rightColor = null;
+    for (int row = 0; row < pixels.length; row++)
+    {
+      for (int col = 0;
+           col < pixels[0].length-1; col++)
+      {
+        leftPixel = pixels[row][col];
+        rightPixel = pixels[row][col+1];
+        rightColor = rightPixel.getColor();
+        if (leftPixel.colorDistance(rightColor) > edgeDist)
+          leftPixel.setBlue(leftPixel.getBlue()+10);
+
+      }
+    }
+  }
   /* Main method for testing - each class in Java can have a main 
    * method 
    */
@@ -227,6 +285,7 @@ public class Picture extends SimplePicture
   {
     Picture beach = new Picture("beach.jpg");
     beach.explore();
+    beach.edgeDetection(4);
     beach.zeroBlue();
     beach.explore();
   }
